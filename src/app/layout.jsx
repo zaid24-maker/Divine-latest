@@ -24,13 +24,12 @@ export default function RootLayout({ children }) {
 
           <Header />
 
-          <main id="main" className="flex-1">
+          <main id="main" className="flex-1 pt-16 lg:pt-[72px]">
             {children}
           </main>
 
           <Footer />
 
-          {/* Floating "Chat with us" button — har page pe dikhega */}
           <FloatingChat />
         </ToastProvider>
       </body>

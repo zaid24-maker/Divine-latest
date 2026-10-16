@@ -93,6 +93,7 @@ export function LeadForm({
           placeholder="Your name"
         />
       </Field>
+
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
         <Field label="Phone" htmlFor={id("phone")} error={errors.phone}>
           <Input
@@ -117,6 +118,7 @@ export function LeadForm({
           />
         </Field>
       </div>
+
       <Field label="Preferred contact time" htmlFor={id("time")}>
         <Select
           id={id("time")}
@@ -128,6 +130,7 @@ export function LeadForm({
           ))}
         </Select>
       </Field>
+
       {mode === "enquiry" && (
         <Field label="Message" htmlFor={id("message")} error={errors.message}>
           <Textarea
@@ -139,6 +142,7 @@ export function LeadForm({
           />
         </Field>
       )}
+
       <Button
         type="submit"
         variant="primary"
@@ -151,6 +155,7 @@ export function LeadForm({
         )}
         {mode === "callback" ? "Request a Callback" : "Contact Agent"}
       </Button>
+
       <p className="text-center text-xs text-muted">
         By submitting you agree to be contacted about this property.
       </p>

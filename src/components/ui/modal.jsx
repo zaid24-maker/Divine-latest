@@ -1,13 +1,20 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 export function Modal({ open, onClose, title, children }) {
   const titleId = useId();
   const panelRef = useRef(null);
   const closeRef = useRef(onClose);
+  const [mounted, setMounted] = useState(false);
+
   closeRef.current = onClose;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -26,11 +33,11 @@ export function Modal({ open, onClose, title, children }) {
     };
   }, [open]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[90] flex items-end justify-center bg-ink/60 p-0 sm:items-center sm:p-4"
+      className="fixed inset-0 z-[9999] flex items-end justify-center bg-ink/60 p-0 sm:items-center sm:p-4"
       onMouseDown={onClose}
     >
       <div
@@ -57,6 +64,7 @@ export function Modal({ open, onClose, title, children }) {
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

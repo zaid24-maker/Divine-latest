@@ -37,6 +37,14 @@ export function Header() {
   const isActive = (href) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
+  const pillClass = (active) =>
+    cn(
+      "whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-medium leading-none transition-colors",
+      active
+        ? "bg-emerald text-white"
+        : "bg-[#374456] text-white hover:bg-emerald",
+    );
+
   return (
     <>
       <header
@@ -45,98 +53,74 @@ export function Header() {
           scrolled ? "bg-[#374456] shadow-lg" : "bg-transparent",
         )}
       >
-        <div className="container-page flex h-16 items-center justify-between gap-3 lg:h-[72px] lg:gap-5">
+        <div className="container-page flex h-16 items-center gap-3 lg:h-[72px] lg:gap-5">
+          {/* LEFT — Logo */}
           <Logo variant={scrolled ? "white" : "black"} />
 
-          {/* ✅ CENTER GROUP — nav + auth pills */}
+          {/* CENTER — Nav + Auth (desktop) */}
           <div className="hidden flex-1 items-center justify-center gap-1.5 lg:flex">
-            <nav aria-label="Main" className="flex items-center gap-1.5">
-              {MAIN_NAV.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  className={cn(
-                    "whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-medium leading-none transition-colors",
-                    isActive(item.href)
-                      ? "bg-emerald text-white"
-                      : "bg-[#374456] text-white hover:bg-emerald",
-                  )}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            {MAIN_NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={pillClass(isActive(item.href))}
+              >
+                {item.label}
+              </Link>
+            ))}
 
-            <div className="ml-2 flex items-center gap-1.5">
-              <Link
-                href="/login"
-                className={cn(
-                  "whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-medium leading-none transition-colors",
-                  isActive("/login")
-                    ? "bg-emerald text-white"
-                    : "bg-[#374456] text-white hover:bg-emerald",
-                )}
-              >
-                Login
-              </Link>
-              <Link
-                href="/register"
-                className={cn(
-                  "whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-medium leading-none transition-colors",
-                  isActive("/register")
-                    ? "bg-emerald text-white"
-                    : "bg-[#374456] text-white hover:bg-emerald",
-                )}
-              >
-                Sign Up
-              </Link>
-            </div>
+            <span aria-hidden="true" className="mx-1 h-5 w-px bg-white/20" />
+
+            <Link href="/login" className={pillClass(isActive("/login"))}>
+              Login
+            </Link>
+            <Link
+              href="/register"
+              className={pillClass(isActive("/register"))}
+            >
+              Sign Up
+            </Link>
           </div>
 
-          {/* ✅ RIGHT GROUP — CTA button (chhota kiya) */}
+          {/* RIGHT — CTA (desktop) */}
           <div className="hidden items-center lg:flex">
             <Link
               href="/list-property"
-              className={buttonStyles({
-                variant: "dark",
-                size: "sm", // ← md se sm kar diya
-              })}
+              className={cn(
+                buttonStyles({ variant: "dark", size: "sm" }),
+                "whitespace-nowrap",
+              )}
             >
               <Plus className="h-4 w-4" aria-hidden />
-              <span className="whitespace-nowrap">List Property</span>
+              <span>List Property</span>
             </Link>
           </div>
 
-          {/* Mobile controls */}
-          <div className="flex items-center gap-1.5 lg:hidden">
+          {/* MOBILE CONTROLS */}
+          <div className="flex flex-1 items-center justify-end gap-3 lg:hidden">
             <Link
               href="/search"
               aria-label="Search properties"
-              className="rounded-md p-2.5 text-white transition-colors hover:text-emerald"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#374456] text-white transition-colors hover:bg-emerald"
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-4 w-4" aria-hidden />
             </Link>
-            <Link
-              href="/list-property"
-              className={buttonStyles({ variant: "dark", size: "sm" })}
-            >
-              List Property
-            </Link>
+
             <button
               type="button"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
               aria-expanded={open}
-              className="rounded-md p-2.5 text-white transition-colors hover:text-emerald"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#374456] text-white transition-colors hover:bg-emerald"
             >
-              <Menu className="h-5 w-5" />
+              <Menu className="h-4 w-4" aria-hidden />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Drawer (unchanged) */}
+      {/* Mobile Drawer */}
       {open && (
         <div
           className="fixed inset-0 z-[60] lg:hidden"
@@ -144,54 +128,78 @@ export function Header() {
           aria-modal="true"
           aria-label="Menu"
         >
+          {/* Backdrop */}
           <button
             type="button"
             aria-label="Close menu"
             className="absolute inset-0 bg-ink/50"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 top-0 flex h-dvh w-[84%] max-w-sm animate-fade-up flex-col overflow-y-auto bg-paper p-6 shadow-lift">
-            <div className="mb-6 flex items-center justify-between">
-              <Logo variant="black" />
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                aria-label="Close menu"
-                className="rounded-md p-2 hover:bg-sand"
-              >
-                <X className="h-5 w-5" />
-              </button>
+
+          {/* Panel — narrower, slate header */}
+          <div className="absolute right-0 top-0 flex h-dvh w-[65%] max-w-[280px] flex-col bg-paper shadow-lift">
+            {/* Fixed Header — slate background */}
+            <div className="flex shrink-0 items-center justify-between gap-2 bg-[#374456] px-3 py-3">
+              <Logo variant="white" />
+
+              <div className="flex items-center gap-1.5">
+                <Link
+                  href="/list-property"
+                  className="flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-white px-3 text-[11px] font-semibold text-[#374456] transition-colors hover:bg-emerald hover:text-white"
+                >
+                  <Plus className="h-3 w-3" aria-hidden />
+                  <span>List</span>
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  aria-label="Close menu"
+                  className="flex h-8 w-8 items-center justify-center rounded-md text-white transition-colors hover:bg-white/15"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
             </div>
-            <nav aria-label="Mobile" className="flex flex-1 flex-col">
+
+            {/* Scrollable Nav */}
+            <nav
+              aria-label="Mobile"
+              className="flex-1 overflow-y-auto overscroll-contain px-4 py-2"
+            >
               {MAIN_NAV.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="border-b border-line py-4 font-display text-2xl"
+                  className="block border-b border-line py-3 font-display text-base"
                 >
                   {item.label}
                 </Link>
               ))}
               <Link
                 href="/sell"
-                className="border-b border-line py-4 font-display text-2xl"
+                className="block border-b border-line py-3 font-display text-base"
               >
                 Sell
               </Link>
             </nav>
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <Link
-                href="/login"
-                className={buttonStyles({ variant: "outline" })}
-              >
-                Login
-              </Link>
-              <Link
-                href="/register"
-                className={buttonStyles({ variant: "primary" })}
-              >
-                Sign Up
-              </Link>
+
+            {/* Fixed Footer — Login / Sign Up */}
+            <div className="shrink-0 border-t border-line bg-paper px-4 py-3">
+              <div className="grid grid-cols-2 gap-2">
+                <Link
+                  href="/login"
+                  className={buttonStyles({ variant: "outline", size: "sm" })}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className={buttonStyles({ variant: "primary", size: "sm" })}
+                >
+                  Sign Up
+                </Link>
+              </div>
             </div>
           </div>
         </div>
