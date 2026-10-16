@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
           <main id="main" className="flex-1 pt-16 lg:pt-[72px]">
             {children}
           </main>
-
+{/* foooter */}
           <Footer />
 
           <FloatingChat />
