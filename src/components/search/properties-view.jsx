@@ -29,7 +29,6 @@ export async function PropertiesView({
   const cities = CITIES.filter((c) => c.country === country);
   const { heading } = describeSearch(filters);
   const paginationParams = filtersToParams({ ...filters, page: 1 });
-  // Locked facets live in the path, so they should not be repeated in pagination links.
   if (lockedPurpose) paginationParams.delete("purpose");
   if (lockedCategory) paginationParams.delete("category");
 
