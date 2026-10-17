@@ -95,12 +95,7 @@ export function ListLanding({ mode = "any" }) {
               </Link>
               <Link
                 href="/agents"
-                className={buttonStyles({
-                  variant: "light",
-                  size: "lg",
-                  className:
-                    "bg-transparent text-paper ring-1 ring-paper/30 hover:bg-paper/10 hover:text-paper",
-                })}
+                className="inline-flex min-h-[52px] items-center justify-center rounded-full border border-paper/40 bg-transparent px-6 py-3 text-base font-medium text-paper transition-colors hover:bg-paper hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-paper"
               >
                 Talk to an agent
               </Link>

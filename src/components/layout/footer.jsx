@@ -51,8 +51,11 @@ export async function Footer() {
   return (
     <footer className="border-t border-white/10 bg-[#050505] text-white">
       <div className="container-page py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div className="min-w-0">
+        {/* Grid: Mobile pe 2 cols, Desktop pe 4 cols */}
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          
+          {/* Logo Section: Mobile pe full width, Desktop pe 1 col */}
+          <div className="col-span-2 min-w-0 md:col-span-1">
             <Logo tone="light" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/65">
               {SITE.tagline}
@@ -76,7 +79,8 @@ export async function Footer() {
             </ul>
           </div>
 
-          <section aria-labelledby="footer-contact-title" className="min-w-0">
+          {/* Contact Section: Mobile pe full width, Desktop pe 1 col */}
+          <section aria-labelledby="footer-contact-title" className="col-span-2 min-w-0 md:col-span-1">
             <h2
               id="footer-contact-title"
               className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-white"
@@ -131,6 +135,7 @@ export async function Footer() {
             </address>
           </section>
 
+          {/* Quick Links: Mobile pe 1 col (half width), Desktop pe 1 col */}
           <nav aria-labelledby="footer-links-title" className="min-w-0">
             <h2
               id="footer-links-title"
@@ -149,6 +154,7 @@ export async function Footer() {
             </ul>
           </nav>
 
+          {/* Legal: Mobile pe 1 col (half width), Desktop pe 1 col */}
           <nav aria-labelledby="footer-legal-title" className="min-w-0">
             <h2
               id="footer-legal-title"
