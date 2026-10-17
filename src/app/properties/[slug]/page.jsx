@@ -212,7 +212,7 @@ export default async function PropertyPage({ params }) {
         )}
       </div>
 
-      {/* Mobile quick-contact bar, sits above the bottom navigation. */}
+      {/* Mobile quick-contact bar, sits above the bottom navigation.
       <div className="fixed inset-x-0 bottom-16 z-40 flex gap-2 border-t border-line bg-paper/95 p-3 backdrop-blur lg:hidden">
         <a
           href={`tel:${p.agent.phone.replace(/\s/g, "")}`}
@@ -228,7 +228,7 @@ export default async function PropertyPage({ params }) {
         >
           <MessageCircle className="h-4 w-4" aria-hidden /> WhatsApp
         </a>
-      </div>
+      </div> */}
     </>
   );
 }
